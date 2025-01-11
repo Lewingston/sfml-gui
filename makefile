@@ -118,6 +118,12 @@ INCLUDE_FLAGS = -isystem$(SFML_INCLUDE_DIR) \
                 -DSFML_STATIC
 
 ################################################################################
+#                                COMPILER FLAGS                                #
+################################################################################
+
+CFLAGS += -MMD
+
+################################################################################
 #                              COMPILER SECTION                                #
 ################################################################################
 
@@ -177,12 +183,21 @@ $(OUT_DIR)demo.exe : demo.cpp $(OUT_DIR)$(ARCHIVE_NAME).a | $(OUT_DIRS)
 	@$(COM) $(OBJ_DIR)demo.o $(OUT_DIR)$(ARCHIVE_NAME).a -o $@ $(LINKER_FLAGS)
 
 ################################################################################
+#                               GENERATE FONT DATA                             #
+################################################################################
+
+$(OBJ_DIR)fontData.o : res/consolas.ttf | $(OBJ_DIR)
+	@echo Generate font data
+	xxd -i $< > $(OBJ_DIR)fontData.c
+	$(CC) -c $(OBJ_DIR)fontData.c -o $(OBJ_DIR)fontData.o
+
+################################################################################
 #                       RULE TO GENERATE ARCHIVE FILE                          #
 ################################################################################
 
-$(OUT_DIR)$(ARCHIVE_NAME).a : $(O_FILES) | $(OUT_DIR)
+$(OUT_DIR)$(ARCHIVE_NAME).a : $(O_FILES) $(OBJ_DIR)fontData.o | $(OUT_DIR)
 	@echo Create archive $@
-	@$(AR) -rc $@ $(O_FILES)
+	@$(AR) -rc $@ $(O_FILES) $(OBJ_DIR)fontData.o
 
 ################################################################################
 #                  RULE TO COMPILE SOURCE FILE TO OBJECT FILE                  #

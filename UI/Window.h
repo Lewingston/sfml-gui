@@ -61,7 +61,8 @@ namespace UI {
             int32_t mousePosX = 0;
             int32_t mousePosY = 0;
 
-            Font consoleFont = Font("resources/Fonts/consolas.ttf");
+            //Font consoleFont = Font("resources/Fonts/consolas.ttf");;
+            Font consoleFont = Font();
             Color clickIdColor = Color(0);
 
             std::chrono::steady_clock::time_point fpsTimer;

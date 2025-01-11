@@ -15,6 +15,7 @@ namespace UI {
         public:
 
             Font(const std::string& fontPath);
+            Font();
             ~Font() = default;
 
             [[nodiscard]] std::shared_ptr<sf::Font> getSfFont() const noexcept { return font; }
@@ -37,8 +38,11 @@ namespace UI {
             };
 
             std::shared_ptr<sf::Font> font;
+            static std::shared_ptr<sf::Font> defaultFont;
 
             static FontLoader fontLoader;
+
+            void loadDefaultFont();
 
     };
 
