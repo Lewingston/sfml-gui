@@ -30,6 +30,9 @@ namespace UI {
             void setFontAttribute(FontAttribute style) noexcept { fontStyle.setFontStyle(style); }
             [[nodiscard]] float getFontSpacingFactor() const noexcept { return fontStyle.getCharacterSpacingFactor(); }
             void setFontSpacingFactor(float factor) { fontStyle.setCharacterSpacingFector(factor); }
+            [[nodiscard]] int32_t getFontHorizontalOffset() const noexcept { return fontStyle.getHorizontalOffset(); }
+            void setFontHorizontalOffset(int32_t offset) noexcept { fontStyle.setHorizontalOffset(offset); }
+
         protected:
 
             TextWidget(int32_t posX, int32_t posY, uint32_t width, uint32_t height, const std::string& text, const Font& font);
