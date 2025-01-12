@@ -27,6 +27,11 @@ void DropDownMenu::setStyle(const Style& style) {
     downButton->setStyle(style);
 }
 
+void DropDownMenu::setFontStyle(const FontStyle& fontStyle) {
+    this->fontStyle = fontStyle;
+    label->setFontStyle(fontStyle);
+}
+
 void DropDownMenu::setSelectedItem(const std::pair<std::string, uint64_t>& item) {
     selectedRefValue = item.second;
     label->setText(item.first);
@@ -67,6 +72,7 @@ void DropDownMenu::expand() {
     for (size_t ii = 0; ii < items.size(); ii++) {
         std::shared_ptr<Button> button = Button::create(0, static_cast<int32_t>(getHeight() * ii), getWidth(), getHeight(), items.at(ii).first, label->getFont());
         button->setStyle(getStyle());
+        button->setFontStyle(fontStyle);
         button->setOnClickCallback(std::bind(&DropDownMenu::itemClicked, this, std::placeholders::_1, items.at(ii)));
         container->addChild(button);
     }

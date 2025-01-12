@@ -21,6 +21,7 @@ namespace UI {
             }
 
             void setStyle(const Style& style) override;
+            void setFontStyle(const FontStyle& fontStyle);
 
             [[nodiscard]] std::pair<std::string, uint64_t> getSelectedItem() const noexcept { return std::pair<std::string, uint64_t>(label->getText(), selectedRefValue); }
             void setSelectedItem(const std::pair<std::string, uint64_t>& item);
@@ -55,6 +56,7 @@ namespace UI {
             std::vector<std::pair<std::string, uint64_t>> items;
 
             Font font;
+            FontStyle fontStyle;
 
             uint64_t selectedRefValue = 0;
 
