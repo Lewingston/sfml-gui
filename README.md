@@ -10,8 +10,8 @@ Supported Elements:
  * Drop Down Menu
  * Scroll List (WIP)
  * Check Box
- * Images
- * Animations
+ * Image
+ * Animation
 
 ## Demo
 
