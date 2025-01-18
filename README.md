@@ -19,4 +19,4 @@ Supported Elements:
 
 ## Dependencies
 
-[SFML 2.5.1](https://www.sfml-dev.org/download/sfml/3.0.0/)
+[SFML 3.0.0](https://www.sfml-dev.org/download/sfml/3.0.0/)
