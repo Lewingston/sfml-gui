@@ -22,20 +22,20 @@ void TextWidget::drawSelf(const RenderTarget& renderTarget, int32_t offsetX, int
 
     Widget::drawSelf(renderTarget, offsetX, offsetY, zoom);
 
-    sf::Text text;
+    if (!font.getSfFont())
+        return;
+
+    const uint32_t fontSize = static_cast<uint32_t>(static_cast<float>(fontStyle.getFontSize())*zoom);
+    sf::Text text(*font.getSfFont().get(), this->text, fontSize);
 
     // set style parameters
-    if (font.getSfFont())
-        text.setFont(*font.getSfFont().get());
-    text.setString(this->text);
-    text.setCharacterSize(static_cast<uint32_t>(static_cast<float>(fontStyle.getFontSize())*zoom));
     text.setFillColor(sf::Color(getStyle().getFrontColor().getValue()));
     text.setStyle(static_cast<uint32_t>(fontStyle.getFontStyle()));
     text.setLetterSpacing(fontStyle.getCharacterSpacingFactor());
 
     // TODO: Maybe dont calculate text dimensions with each draw call
-    textWidth = static_cast<int32_t>(std::lround(text.getGlobalBounds().width));
-    textHeight = static_cast<int32_t>(std::lround(text.getGlobalBounds().height));
+    textWidth = static_cast<int32_t>(std::lround(text.getGlobalBounds().size.x));
+    textHeight = static_cast<int32_t>(std::lround(text.getGlobalBounds().size.y));
 
     int32_t textPosX = getPosX() + offsetX;
     int32_t textPosY = getPosY() + offsetY;
@@ -53,23 +53,23 @@ void TextWidget::drawSelf(const RenderTarget& renderTarget, int32_t offsetX, int
         originX = 0;
         textPosX += fontStyle.getHorizontalOffset();
     } else if (style.getContaentAlignmentHorizontal() == AlignmentHor::CENTER) {
-        originX = textWidth / 2 + static_cast<int32_t>(text.getLocalBounds().left);
+        originX = textWidth / 2 + static_cast<int32_t>(text.getLocalBounds().position.x);
         textPosX += static_cast<int32_t>(getWidth()) / 2 + fontStyle.getHorizontalOffset();
     }
 
     // calculate vertical position
     if (style.getContentAlignmentVertical() == AlignmentVer::BOTTOM) {
-        originY = textHeight + static_cast<int32_t>(text.getLocalBounds().top);
+        originY = textHeight + static_cast<int32_t>(text.getLocalBounds().position.y);
         textPosY += static_cast<int32_t>(getHeight()) + fontStyle.getVerticalOffset();
     } else if (style.getContentAlignmentVertical() == AlignmentVer::TOP) {
         originY = fontStyle.getVerticalOffset();
     } else if (style.getContentAlignmentVertical() == AlignmentVer::CENTER) {
-        originY = textHeight / 2 + static_cast<int32_t>(text.getLocalBounds().top);
+        originY = textHeight / 2 + static_cast<int32_t>(text.getLocalBounds().position.y);
         textPosY += static_cast<int32_t>(getHeight() / 2) + fontStyle.getVerticalOffset();
     }
 
-    text.setOrigin(static_cast<float>(originX), static_cast<float>(originY));
-    text.setPosition(static_cast<float>(textPosX)*zoom, static_cast<float>(textPosY)*zoom);
+    text.setOrigin({static_cast<float>(originX), static_cast<float>(originY)});
+    text.setPosition({static_cast<float>(textPosX)*zoom, static_cast<float>(textPosY)*zoom});
 
     renderTarget.getRenderTarget()->draw(text);
 

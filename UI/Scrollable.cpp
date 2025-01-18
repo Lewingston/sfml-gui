@@ -6,16 +6,14 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <iostream>
+
 using namespace UI;
 
 Scrollable::Scrollable(int32_t posX, int32_t posY, uint32_t width, uint32_t height) :
-    Widget(posX, posY, width, height) {
-
-    renderTexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture());
-    clickTexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture());
-
-    renderTexture->create(width, height);
-    clickTexture->create(width, height);
+    Widget(posX, posY, width, height),
+    renderTexture(new sf::RenderTexture({width, height})),
+    clickTexture(new sf::RenderTexture({width, height})) {
 }
 
 void Scrollable::registerScrollable() {
@@ -45,14 +43,14 @@ void Scrollable::draw(const RenderTarget& target, int32_t offsetX, int32_t offse
     {
     const sf::Texture& texture = renderTexture->getTexture();
     sf::Sprite sprite(texture);
-    sprite.setPosition(static_cast<float>(offsetX + getPosX()) * zoom, static_cast<float>(offsetY + getPosY()) * zoom);
+    sprite.setPosition({static_cast<float>(offsetX + getPosX()) * zoom, static_cast<float>(offsetY + getPosY()) * zoom});
     target.getRenderTarget()->draw(sprite);
     }
 
     {
     const sf::Texture& texture = clickTexture->getTexture();
     sf::Sprite sprite(texture);
-    sprite.setPosition(static_cast<float>(offsetX + getPosX()) * zoom, static_cast<float>(offsetY + getPosY()) * zoom);
+    sprite.setPosition({static_cast<float>(offsetX + getPosX()) * zoom, static_cast<float>(offsetY + getPosY()) * zoom});
     target.getClickRenderTarget()->draw(sprite);
     }
 }
@@ -61,14 +59,15 @@ void Scrollable::handleWindowResizeEvent(uint32_t, uint32_t, float zoom) {
 
     std::lock_guard<std::mutex> lock(textureMutex);
 
-    renderTexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture());
-    clickTexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture());
-
     const uint32_t width = static_cast<uint32_t>(static_cast<float>(getWidth()) * zoom);
     const uint32_t height = static_cast<uint32_t>(static_cast<float>(getHeight()) * zoom);
 
-    renderTexture->create(width, height);
-    clickTexture->create(width, height);
+    if (!renderTexture->resize({width, height})) {
+        std::cerr << "UI Error: Failed to resize render texture!\n";
+    }
+    if (!clickTexture->resize({width, height})) {
+        std::cerr << "UI Error: Failed to resize click texture!\n";
+    }
 }
 
 void Scrollable::handleMouseWheelEvent(const MouseWheelEvent& event) {

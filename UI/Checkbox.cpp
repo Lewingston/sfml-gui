@@ -30,7 +30,7 @@ void CheckBox::drawCheck(const RenderTarget& renderTarget, int32_t offsetX, int3
     shape.setSize(sf::Vector2f(width, height));
     const float posX = (static_cast<float>(getPosX() + offsetX) + static_cast<float>(getWidth()) * 0.1f) * zoom;
     const float posY = (static_cast<float>(getPosY() + offsetY) + static_cast<float>(getWidth()) * 0.1f) * zoom;
-    shape.setPosition(posX, posY);
+    shape.setPosition({posX, posY});
     shape.setFillColor(sf::Color(getFrontColor().getValue()));
 
     renderTarget.getRenderTarget()->draw(shape);

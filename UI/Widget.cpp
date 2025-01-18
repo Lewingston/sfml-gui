@@ -63,8 +63,8 @@ void Widget::drawOutline(const RenderTarget& renderTarget, int32_t offsetX, int3
 
 void Widget::setDrawParameters(UI::Color backColor, UI::Color frameColor, int32_t offsetX, int32_t offsetY, float zoom) {
 
-    shape->setScale(zoom, zoom);
-    shape->setPosition(static_cast<float>(getPosX() + offsetX)*zoom, static_cast<float>(getPosY() + offsetY)*zoom);
+    shape->setScale({zoom, zoom});
+    shape->setPosition({static_cast<float>(getPosX() + offsetX)*zoom, static_cast<float>(getPosY() + offsetY)*zoom});
     shape->setOutlineThickness(static_cast<float>(static_cast<int32_t>(static_cast<float>(style.getBorderWidth()) * zoom)));
 
     shape->setOutlineColor(sf::Color(frameColor.getValue()));

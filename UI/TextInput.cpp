@@ -62,7 +62,7 @@ void TextInput::drawCursor(const RenderTarget& renderTarget, int32_t offsetX, in
         posY += static_cast<int32_t>(static_cast<float>(getHeight())*zoom / 2.0f) - static_cast<int32_t>(getFontSize()) / 2;
     }
 
-    line.setPosition(static_cast<float>(posX), static_cast<float>(posY));
+    line.setPosition({static_cast<float>(posX), static_cast<float>(posY)});
 
     renderTarget.getRenderTarget()->draw(line);
 }

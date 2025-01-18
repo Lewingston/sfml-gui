@@ -41,10 +41,9 @@ void Image::drawSelf(const RenderTarget& renderTarget, int32_t offsetX, int32_t 
     const float scaleX = static_cast<float>(getWidth()) * zoom / static_cast<float>(image->getSize().x);
     const float scaleY = static_cast<float>(getHeight()) * zoom / static_cast<float>(image->getSize().y);
 
-    sf::Sprite sprite;
-    sprite.setTexture(*image.get());
+    sf::Sprite sprite(*image.get());
     sprite.setScale(sf::Vector2f(scaleX, scaleY));
-    sprite.setPosition(static_cast<float>(posX) * zoom, static_cast<float>(posY) * zoom);
+    sprite.setPosition({static_cast<float>(posX) * zoom, static_cast<float>(posY) * zoom});
     renderTarget.getRenderTarget()->draw(sprite);
 }
 

@@ -4,6 +4,10 @@
 
 namespace sf {
     class Event;
+
+    namespace Mouse {
+        enum class Button;
+    }
 };
 
 namespace UI {
@@ -52,8 +56,6 @@ namespace UI {
                 posY(posY),
                 click(click) {}
 
-            MouseClickEvent(const sf::Event& event);
-
             virtual ~MouseClickEvent() = default;
 
             [[nodiscard]] MouseButton getMouseButton() const noexcept { return button; }
@@ -61,6 +63,8 @@ namespace UI {
             [[nodiscard]] int32_t getPosY() const noexcept { return posY; }
             [[nodiscard]] bool pressed() const noexcept { return click; }
             [[nodiscard]] bool released() const noexcept { return !click; }
+
+            [[nodiscard]] static MouseButton getMouseButton(sf::Mouse::Button button) noexcept;
 
         private:
 
@@ -81,8 +85,6 @@ namespace UI {
                 posY(posY),
                 oldX(oldX),
                 oldY(oldY) {}
-
-            MouseMoveEvent(const sf::Event& event, int32_t oldX, int32_t oldY);
 
             virtual ~MouseMoveEvent() = default;
 

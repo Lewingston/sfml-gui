@@ -32,7 +32,7 @@ void Font::loadDefaultFont() {
 
     defaultFont = std::shared_ptr<sf::Font>(new sf::Font());
 
-    if (!defaultFont->loadFromMemory(&res_consolas_ttf, res_consolas_ttf_len)) {
+    if (!defaultFont->openFromMemory(&res_consolas_ttf, res_consolas_ttf_len)) {
         std::cout << "Failed to load font from program data\n";
         defaultFont.reset();
     }
@@ -52,7 +52,7 @@ std::shared_ptr<sf::Font> Font::FontLoader::loadFont(const std::string& fontPath
 
     // if font is not loaded try to load font
     std::shared_ptr<sf::Font> font = std::shared_ptr<sf::Font>(new sf::Font());
-    if (!font->loadFromFile(fontPath)) {
+    if (!font->openFromFile(fontPath)) {
         // handle font load error
         std::cout << "Unable to load font: " << fontPath << std::endl;
         return nullptr;
