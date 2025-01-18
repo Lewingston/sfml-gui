@@ -149,7 +149,8 @@ D_FILES = $(addprefix $(OBJ_DIR),$(addsuffix .d,$(basename $(C_FILES))))
 
 # list of output directories
 OUT_DIRS = $(abspath $(addprefix $(OBJ_DIR),$(sort $(dir $(C_FILES))))) \
-           $(OUT_DIR)
+           $(OUT_DIR) \
+           $(OBJ_DIR)
 
 ################################################################################
 #                         INCLUDE DEPENDENCY FILES                             #
